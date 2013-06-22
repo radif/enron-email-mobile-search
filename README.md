@@ -10,4 +10,4 @@ Please, note, that the parser and the mobile code has been tested on the subset 
 You can download the full enron email database here:
 http://www.cs.cmu.edu/~enron/enron_mail_20110402.tgz
 
-![ScreenShot](https://github.com/radif/enron-email-mobile-search/blob/master/screenshot.png)
+![ScreenShot](https://raw.github.com/radif/enron-email-mobile-search/master/screenshot.png)

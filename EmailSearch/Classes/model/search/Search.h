@@ -16,7 +16,8 @@
 
 namespace EmailSearch {
     typedef std::vector<SearchResult> results_t;
-    typedef std::function<void(std::string query, const results_t & results, long timeMillis)> completion_t;
+    typedef std::shared_ptr<results_t> p_results_t;
+    typedef std::function<void(std::string query, p_results_t results, long timeMillis)> completion_t;
     
     //platform specific helpers
     

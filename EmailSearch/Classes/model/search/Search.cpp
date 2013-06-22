@@ -101,11 +101,15 @@ namespace EmailSearch{
         std::transform(q.begin(), q.end(), q.begin(), ::tolower);
         const long kSearchBeganTime=currentTimeMilliseconds();
         
-        
+        if (q.empty()) {
+            if (completion)
+                completion(query, std::make_shared<results_t>(), currentTimeMilliseconds()-kSearchBeganTime);
+            return;
+        }
         
         FutureHolder *futureHolder(new FutureHolder());
         futureHolder->future = std::async(std::launch::async, [=] () {
-            results_t results;
+            p_results_t results(std::make_shared<results_t>());
 
             std::string key(q);
             if (key.size()>3)
@@ -138,9 +142,9 @@ namespace EmailSearch{
                                 ss.ignore();
                         }
                         
-                        for (int i (0); i<values.size(); i=i+2) {
-                            results.push_back(SearchResult(word, values[i], values.at(i+1), currentTimeMilliseconds()-kSearchBeganTime));
-                        }
+                        for (int i (0); i<values.size(); i=i+2)
+                            results->push_back(SearchResult(word, values[i], values.at(i+1), currentTimeMilliseconds()-kSearchBeganTime));
+                        
                         
                         
                         

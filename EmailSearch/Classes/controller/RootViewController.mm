@@ -17,6 +17,8 @@
     IBOutlet UITextField *_textField;
     IBOutlet UIButton *_button;
     IBOutlet UITableView *_tableView;
+    IBOutlet UILabel *_label;
+    
     EmailSearch::p_results_t _searchResults;
 }
 
@@ -38,6 +40,7 @@
     [_textField release];
     [_button release];
     [_tableView release];
+    [_label release];
     [super dealloc];
 }
 - (IBAction)buttonPressed:(id)sender {
@@ -48,12 +51,14 @@
     self.view.userInteractionEnabled=FALSE;
     [_textField resignFirstResponder];
     _searchResults=nullptr;
+    _label.text=@"";
     [_tableView reloadData];
     
     std::string queryString=[_textField.text UTF8String];
     
     EmailSearch::Search(queryString, [=](std::string query, EmailSearch::p_results_t results, long timeMillis){
         _searchResults=results;
+        _label.text=[NSString stringWithFormat:@"%ld results in %ld ms", results->size(),timeMillis];
         [_tableView reloadData];
         self.view.userInteractionEnabled=TRUE;
     });
@@ -85,7 +90,7 @@
     
     if (!cell){
         cell=[[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-        cell.detailTextLabel.numberOfLines=3;
+        cell.detailTextLabel.numberOfLines=40;
     }
     
     
@@ -103,7 +108,7 @@
 }
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 80;
+    return 100;
 }
 
 
